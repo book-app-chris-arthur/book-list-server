@@ -10,7 +10,7 @@ const app = express();
 // const client = new pg.Client();
 // client.connect();
 app.use(bodyParser.urlencoded({extended: true}));
-app.use(express.static('./'));
+app.use(express.static('./public'));
 
 //app.use(express.static(''));
 
