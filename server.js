@@ -1,4 +1,5 @@
 'use strict';
+
 const express = require('express');
 const pg = require('pg');
 const bodyParser = require('body-parser');
@@ -14,6 +15,10 @@ const client = new pg.Client(dataBaseUrl);
 client.connect();
 
 app.use(bodyParser.urlencoded({extended: true}));
+
+app.get('/', (request, response) => {
+  response.send(`Welcom to Chris and Arthur's BookList App`);
+});
 
 app.get('/test', (request, response) => {
   response.send(`Route successful`);
