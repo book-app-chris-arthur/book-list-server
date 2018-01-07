@@ -17,7 +17,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(cors());
 
 app.get('/', (request, response) => {
-  response.sendFile(`index.html`);
+  response.send(`Currently under construction :-)`);
 });
 
 app.get('/test', (request, response) => {
