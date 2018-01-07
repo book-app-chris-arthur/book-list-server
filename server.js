@@ -17,7 +17,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(cors());
 
 app.get('/', (request, response) => {
-  response.send(`Welcome to Chris and Arthur's BookList App`);
+  response.sendFile(`index.html`);
 });
 
 app.get('/test', (request, response) => {
