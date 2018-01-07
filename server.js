@@ -7,8 +7,8 @@ const bodyParser = require('body-parser');
 const PORT = process.env.PORT || 3000;
 
 const app = express();
-//const conString = 'postgres://localhost:5432/books_app';
-const DATABASE_URL = process.env.DATABASE_URL;
+const conString = 'postgres://localhost:5432/books_app';
+const DATABASE_URL = process.env.DATABASE_URL || conString;
 
 const client = new pg.Client(DATABASE_URL);
 client.connect();
