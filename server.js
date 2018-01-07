@@ -1,21 +1,35 @@
 'use strict';
+
 const express = require('express');
 const pg = require('pg');
+const cors = require('cors');
 const bodyParser = require('body-parser');
 const PORT = process.env.PORT || 3000;
-const __API_URL__; /* http://localhost:3000 OR https://git.heroku.com/cl-aa-booklist.git */
 
 const app = express();
-// const conString;
-// const client = new pg.Client();
-// client.connect();
-app.use(bodyParser.urlencoded({extended: true}));
-app.use(express.static('./public'));
+const conString = 'postgres://localhost:5432/books_app';
+const DATABASE_URL = process.env.DATABASE_URL || conString;
 
-//app.use(express.static(''));
+const client = new pg.Client(DATABASE_URL);
+client.connect();
+
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(cors());
+
+app.get('/', (request, response) => {
+  response.sendFile(`index.html`);
+});
 
 app.get('/test', (request, response) => {
   response.send(`Route successful`);
+});
+
+app.get('/api/v1/books', (request, response) => {
+  client.query(`
+    SELECT book_id, title, author, image_url FROM books;`
+  )
+    .then(result => response.send(result.rows))
+    .catch(console.error);
 });
 
 app.listen(PORT, () => {
