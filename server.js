@@ -7,8 +7,8 @@ const bodyParser = require('body-parser');
 const PORT = process.env.PORT || 3000;
 
 const app = express();
-const conString = 'postgres://localhost:5432/books_app';
-const DATABASE_URL = process.env.DATABASE_URL || conString;
+//const DATABASE_URL = process.env.DATABASE_URL;
+const DATABASE_URL = 'postgres://localhost:5432/books_app';
 
 const client = new pg.Client(DATABASE_URL);
 client.connect();
@@ -24,9 +24,10 @@ app.get('/test', (request, response) => {
   response.send(`Route successful`);
 });
 
+// request info for all books
 app.get('/api/v1/books', (request, response) => {
   client.query(`
-    SELECT book_id, title, author, image_url FROM books;`
+    SELECT book_id, author, title, image_url FROM books;`
   )
     .then(result => response.send(result.rows))
     .catch(console.error);
@@ -37,14 +38,26 @@ app.get('/api/v1/books/:id', (request, response) => {
   client.query(`
     SELECT * FROM books
     WHERE book_id = ${request.params.id};`
-
   )
-    .then(result => response.send(result.rows))
+    .then(result => response.send(result.rows[0]))
     .catch(console.error);
 });
 
-// add a new book
-app.post('/api/v1/books');
+// create a new book record
+app.post('/api/v1/books/create', (request, response) => {
+  client.query(`
+    INSERT INTO books(author, title, isbn, image_url, description)
+    VALUES($1, $2, $3, $4, $5) ON CONFLICT DO NOTHING;`,
+    [
+      request.body.author,
+      request.body.title,
+      request.body.isbn,
+      request.body.image_url,
+      request.body.description
+    ])
+    .then(result => response.send('New book created!'))
+    .catch(err => console.error(err));
+});
 
 app.listen(PORT, () => {
   console.log(`Server listening on PORT ${PORT}`);
