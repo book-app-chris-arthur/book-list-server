@@ -39,7 +39,7 @@ app.get('/api/v1/books/:id', (request, response) => {
     SELECT * FROM books
     WHERE book_id=${request.params.id};`
   )
-    .then(result => response.send(result.rows))
+    .then(result => response.send(result.rows[0]))
     .catch(err => console.error(err));
 });
 
