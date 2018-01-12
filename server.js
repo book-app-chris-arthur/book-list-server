@@ -55,7 +55,10 @@ app.post('/api/v1/books/create', (request, response) => {
       request.body.image_url,
       request.body.description
     ])
-    .then(result => response.send('New book created!'))
+    .then(result => {
+      console.log(result.rows[0]);
+      response.send('New book created!');
+    })
     .catch(err => console.error(err));
 });
 
