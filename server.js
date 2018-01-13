@@ -39,7 +39,7 @@ app.get('/api/v1/books/:id', (request, response) => {
     SELECT * FROM books
     WHERE book_id=${request.params.id};`
   )
-    .then(result => response.send(result.rows))
+    .then(result => response.send(result.rows[0]))
     .catch(err => console.error(err));
 });
 
@@ -55,7 +55,10 @@ app.post('/api/v1/books/create', (request, response) => {
       request.body.image_url,
       request.body.description
     ])
-    .then(result => response.send('New book created!'))
+    .then(result => {
+      console.log(result.rows[0]);
+      response.send('New book created!');
+    })
     .catch(err => console.error(err));
 });
 
