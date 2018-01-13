@@ -62,6 +62,31 @@ app.post('/api/v1/books/create', (request, response) => {
     .catch(err => console.error(err));
 });
 
+app.put('/api/v1/books/:id', (request, response) => {
+  client.query(`
+    UPDATE books
+    SET author=$1, title=$2, isbn=$3, image_url=$4, description=$5
+    WHERE book_id=${request.params.id}
+  `,
+  [
+    request.body.author,
+    request.body.title,
+    request.body.isbn,
+    request.body.image_url,
+    request.body.description
+  ])
+    .then(() => response.status(200).send('Record updated!'))
+    .catch(err => console.error(err));
+});
+
+app.delete('/api/v1/books/:id', (request, response) => {
+  client.query(`
+    DELETE FROM books WHERE book_id=${request.params.id};
+  `)
+    .then(() => response.status(204).send('Record deleted!'))
+    .catch(err => console.error(err));
+});
+
 app.listen(PORT, () => {
   console.log(`Server listening on PORT ${PORT}`);
 });
