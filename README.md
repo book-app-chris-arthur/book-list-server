@@ -1,7 +1,7 @@
 ## book-list-server
 ### Code 301 project: back-end deployment for the book list application
 
-# Project Name - Lab 12: Extend Booklist App
+# Project Name - Lab 13: Middleware
 
 **Author**: Chris Lesesne & Arthur Allen
 **Version**: 1.0.0 (increment the patch/fix version number up if you make more commits past your first submission)
