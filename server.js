@@ -27,7 +27,7 @@ app.get('/test', (request, response) => {
 // request info for all books
 app.get('/api/v1/books', (request, response) => {
   client.query(`
-    SELECT book_id, author, title, image_url FROM books;`
+    SELECT book_id, author, title, isbn, image_url, description FROM books;`
   )
     .then(result => response.send(result.rows))
     .catch(console.error);
