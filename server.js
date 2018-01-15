@@ -7,12 +7,12 @@ const bodyParser = require('body-parser');
 const PORT = process.env.PORT || 3000;
 
 const app = express();
-//const DATABASE_URL = process.env.DATABASE_URL;
-const DATABASE_URL = 'postgres://localhost:5432/books_app';
-
+const DATABASE_URL = process.env.DATABASE_URL;
+// const DATABASE_URL = 'postgres://localhost:5432/books_app';
 const client = new pg.Client(DATABASE_URL);
 client.connect();
 
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(cors());
 
